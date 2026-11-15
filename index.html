@@ -333,18 +333,18 @@ q:{q:"Qual comando mostra o que está ocupando a janela de contexto?",o:["/init"
 q:{q:"Qual a melhor fonte para confirmar uma mudança no Claude Code?",o:["Um comentário em rede social","O changelog oficial e a documentação","Um tutorial antigo","Um palpite"],a:1,e:"O changelog e a documentação oficiais são a referência. Resumos de terceiros ajudam, mas podem errar."}}
 ];
 let cur=0,done=new Set(),ans={};
-try{const s=JSON.parse(localStorage.getItem("cc-curso")||"[]");if(Array.isArray(s))s.forEach(i=>done.add(i));}catch(e){}
-const save=()=>{try{localStorage.setItem("cc-curso",JSON.stringify([...done]));}catch(e){}};
+try{const s=JSON.parse(localStorage.getItem("cc-curso-v2")||"null");if(s){(s.done||[]).forEach(i=>done.add(i));ans=s.ans||{};cur=Math.min(Math.max(+s.cur||0,0),L.length-1)}else{const o=JSON.parse(localStorage.getItem("cc-curso")||"[]");if(Array.isArray(o))o.forEach(i=>done.add(i))}}catch(e){}
+const save=()=>{try{localStorage.setItem("cc-curso-v2",JSON.stringify({done:[...done],ans:ans,cur:cur}))}catch(e){}};
 const $=id=>document.getElementById(id);
 function nav(){let h="",last="";L.forEach((l,i)=>{if(l.m!==last){h+=`<h3>${l.m}</h3>`;last=l.m}h+=`<button class="${i===cur?"on":""}" onclick="go(${i})"><span>${done.has(i)?"✓":"○"}</span>${l.t}</button>`});$("nav").innerHTML=h;$("pb").style.width=(done.size/L.length*100)+"%"}
-function go(i){cur=i;render();window.scrollTo(0,0)}
-function pick(k){const q=L[cur].q;if(ans[cur]!==undefined)return;ans[cur]=k;if(k===q.a){done.add(cur);save()}render()}
+function go(i){cur=i;save();render();window.scrollTo(0,0)}
+function pick(k){const q=L[cur].q;if(ans[cur]!==undefined)return;ans[cur]=k;if(k===q.a)done.add(cur);save();render()}
 function render(){const l=L[cur],q=l.q,a=ans[cur];
 let opts=q.o.map((t,k)=>{let c="";if(a!==undefined){if(k===q.a)c="ok";else if(k===a)c="no"}return `<button class="opt ${c}" ${a!==undefined?"disabled":""} onclick="pick(${k})">${t}</button>`}).join("");
 let fb=a===undefined?"":(a===q.a?`<div class="fb" style="color:var(--ok)"><b>Correto!</b> ${q.e}</div>`:`<div class="fb" style="color:var(--er)"><b>Quase.</b> ${q.e} <button class="btn g" onclick="retry()">Tentar de novo</button></div>`);
 let end=done.size===L.length?`<div class="tip"><b>Curso concluído!</b> Você concluiu as ${L.length} aulas.</div>`:"";
 $("main").innerHTML=`<div class="tag">${l.m} · aula ${cur+1} de ${L.length}</div><h2>${l.t}</h2>${l.b}<div class="quiz"><h4>Teste rápido: ${q.q}</h4>${opts}${fb}</div>${end}<div class="nv"><button class="btn g" ${cur===0?"disabled":""} onclick="go(${cur-1})">← Anterior</button><button class="btn" ${cur===L.length-1?"disabled":""} onclick="go(${cur+1})">Próxima →</button></div>`;nav()}
-function retry(){delete ans[cur];render()}
+function retry(){delete ans[cur];save();render()}
 render();
 </script>
 </body>
