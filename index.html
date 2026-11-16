@@ -15,7 +15,7 @@ header{padding:20px 24px;border-bottom:1px solid var(--bd)}
 h1{margin:0;font-size:1.35rem}header p{margin:4px 0 10px;color:var(--mu);font-size:.9rem}
 .bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--ac);transition:width .4s}
 .wrap{display:grid;grid-template-columns:270px 1fr;max-width:1100px;margin:0 auto}
-nav{padding:16px;border-right:1px solid var(--bd)}
+nav{padding:16px;border-right:1px solid var(--bd);position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}
 nav h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin:14px 6px 4px}
 nav button{display:flex;gap:8px;width:100%;text-align:left;background:none;border:0;color:var(--tx);padding:8px 10px;border-radius:8px;cursor:pointer;font:inherit;font-size:.92rem}
 nav button:hover{background:var(--cd)}nav button.on{background:var(--cd);font-weight:600;color:var(--ac)}
@@ -37,11 +37,11 @@ pre code{background:none;padding:0}
 .btn{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer}
 .btn.g{background:none;color:var(--tx);border:1px solid var(--bd)}.btn:disabled{opacity:.4;cursor:not-allowed}
 .tb{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border-bottom:1px solid var(--bd);padding:7px 10px;text-align:left;vertical-align:top}footer{max-width:1100px;margin:0 auto;padding:0 28px 40px;color:var(--mu);font-size:.82rem}
-@media(max-width:760px){.wrap{grid-template-columns:1fr}nav{border-right:0;border-bottom:1px solid var(--bd)}main{padding:20px 16px 50px}}
+@media(max-width:760px){.wrap{grid-template-columns:1fr}nav{position:static;max-height:38vh;overflow:auto;border-right:0;border-bottom:1px solid var(--bd)}main{padding:20px 16px 50px}}
 </style>
 </head>
 <body>
-<header><h1>Claude Code: do zero ao avançado</h1><p>Curso interativo com projeto prático · atualizado em 15 de novembro de 2026 (Claude Code v2.1.325)</p><div class="bar"><i id="pb"></i></div></header>
+<header><h1>Claude Code: do zero ao avançado</h1><p>Curso interativo com 4 módulos e 4 projetos práticos · atualizado em 15 de novembro de 2026 (Claude Code v2.1.325)</p><div class="bar"><i id="pb"></i></div><input id="q" type="search" aria-label="Buscar aulas" placeholder="Buscar aulas (ex.: hooks, MCP, worktree)" oninput="Q=this.value;filt()" style="width:100%;max-width:420px;margin-top:12px;padding:8px 12px;border-radius:8px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);font:inherit"></header>
 <div class="wrap"><nav id="nav"></nav><main id="main"></main></div>
 <footer>O Claude Code muda rápido. Confira sempre a documentação oficial em code.claude.com/docs, principalmente comandos, flags e nomes de eventos.</footer>
 <script>
@@ -169,7 +169,7 @@ q:{q:"Qual hábito mais ajuda a gastar menos limite?",o:["Nunca usar /clear","Ma
 <ul><li><b>Seja específico:</b> “adicione validação com zod na rota POST /api/tasks” vence “melhore a API”.</li><li><b>Dê um jeito de verificar:</b> “rode npm test e corrija até passar”. Com critério de sucesso, o Claude se autocorrige.</li><li><b>Aponte onde olhar:</b> use <code>@src/lib/db.ts</code> em vez de deixá-lo adivinhar.</li><li><b>Planeje antes de mudanças grandes</b> e execute em passos pequenos.</li><li><b>Revise o diff:</b> você continua sendo o responsável pelo código.</li></ul>
 <p><b>Armadilhas comuns:</b> conversas gigantes que degradam as respostas, aceitar tudo sem ler, pedidos vagos que geram refações e CLAUDE.md inchado. Se o Claude entrar em um ciclo de correções que não funcionam, pare, use <code>/clear</code> e recomece com um prompt melhor, citando o que já foi tentado.</p>`,
 q:{q:"O Claude está preso corrigindo o mesmo erro sem sucesso. O que fazer?",o:["Repetir o mesmo pedido mais vezes","Parar, limpar o contexto e recomeçar com um prompt mais claro, dizendo o que já foi tentado","Desligar as permissões","Instalar mais MCPs"],a:1,e:"Um contexto cheio de tentativas falhas piora o resultado. Recomeçar com mais informação costuma resolver."}},
-{m:"Projeto",t:"TaskFlow: preparação",b:`<p>Hora de juntar tudo. Você vai construir o <b>TaskFlow</b>, um app de tarefas com Next.js, TypeScript, SQLite e testes, <b>conduzindo o Claude Code</b> em cada etapa. Não há código pronto: o aprendizado está em dar bons pedidos e revisar.</p>
+{m:"Projeto",t:"TaskFlow · Preparação",b:`<p>Hora de juntar tudo. Você vai construir o <b>TaskFlow</b>, um app de tarefas com Next.js, TypeScript, SQLite e testes, <b>conduzindo o Claude Code</b> em cada etapa. Não há código pronto: o aprendizado está em dar bons pedidos e revisar.</p>
 <p>Você precisa de Node recente, Git e o Claude Code instalado. Prepare a base:</p>
 <pre><code>mkdir taskflow &amp;&amp; cd taskflow
 git init
@@ -179,7 +179,7 @@ claude</code></pre>
 <p>Roteiro do projeto: <b>1)</b> CLAUDE.md e permissões, <b>2)</b> plano, <b>3)</b> construção em etapas, <b>4)</b> skill e hook, <b>5)</b> subagent revisor e entrega.</p>
 <div class="tip">Faça um commit antes de cada etapa. Se o Claude errar a mão, você volta com <code>git restore .</code> ou <code>git reset --hard</code> sem perder nada.</div>`,
 q:{q:"Por que commitar antes de cada etapa do projeto?",o:["O Claude exige isso","Para poder desfazer facilmente se algo sair errado","Para economizar limite","Para evitar usar permissões"],a:1,e:"Commits pequenos são sua rede de segurança ao delegar edições a um agente."}},
-{m:"Projeto",t:"Etapa 1: CLAUDE.md e permissões",b:`<p>Dentro da sessão, rode <code>/init</code> e leia o rascunho. Depois ajuste para algo assim:</p>
+{m:"Projeto",t:"TaskFlow · Etapa 1: CLAUDE.md e permissões",b:`<p>Dentro da sessão, rode <code>/init</code> e leia o rascunho. Depois ajuste para algo assim:</p>
 <pre><code># TaskFlow
 App de tarefas: Next.js (App Router), TypeScript, SQLite, Vitest.
 ## Comandos
@@ -200,7 +200,7 @@ App de tarefas: Next.js (App Router), TypeScript, SQLite, Vitest.
 <p>Confira com <code>/permissions</code> e faça o commit.</p>
 <div class="tip">Checklist: CLAUDE.md curto com comandos e regras ✓ · .env bloqueado ✓ · testes e lint liberados ✓</div>`,
 q:{q:"Por que liberar npm test e lint em allow?",o:["Para o Claude não pedir aprovação a cada verificação segura","Para desativar a segurança","Porque são obrigatórios","Para apagar o .env"],a:0,e:"Comandos seguros e frequentes em allow reduzem interrupções sem abrir mão do controle sobre o resto."}},
-{m:"Projeto",t:"Etapa 2: planejar com Plan Mode",b:`<p>Aperte <b>Shift+Tab</b> até entrar em Plan Mode e peça o plano, sem código ainda:</p>
+{m:"Projeto",t:"TaskFlow · Etapa 2: planejar com Plan Mode",b:`<p>Aperte <b>Shift+Tab</b> até entrar em Plan Mode e peça o plano, sem código ainda:</p>
 <pre><code>Quero um app de tarefas (TaskFlow). Requisitos:
 - criar, listar, concluir e excluir tarefas
 - cada tarefa tem título, status e data de criação
@@ -212,7 +212,7 @@ implementação em etapas pequenas. Liste dúvidas antes de começar.</code></pr
 <p>Leia o plano com atenção. Responda às dúvidas, corte o que for exagero e só então aprove. Peça para salvar o plano final em <code>PLAN.md</code>: ele vira referência para as próximas etapas.</p>
 <div class="tip">Corrigir um plano custa segundos. Corrigir código já escrito em cima de um plano ruim custa muito mais.</div>`,
 q:{q:"O plano proposto tem uma decisão de que você não gostou. O que fazer?",o:["Aprovar mesmo assim","Pedir o ajuste ainda no plano, antes de aprovar a execução","Apagar o projeto","Trocar de modelo"],a:1,e:"O Plan Mode existe para você revisar e ajustar a direção antes de qualquer edição."}},
-{m:"Projeto",t:"Etapa 3: construir por etapas",b:`<p>Saia do Plan Mode e execute <b>um passo por prompt</b>, sempre conferindo, testando e commitando:</p>
+{m:"Projeto",t:"TaskFlow · Etapa 3: construir por etapas",b:`<p>Saia do Plan Mode e execute <b>um passo por prompt</b>, sempre conferindo, testando e commitando:</p>
 <pre><code>1. Siga o @PLAN.md. Crie o schema SQLite e a camada de acesso
    a dados para tarefas. Rode os testes.
 2. Implemente as rotas /api/tasks (GET, POST, PATCH, DELETE)
@@ -223,7 +223,7 @@ q:{q:"O plano proposto tem uma decisão de que você não gostou. O que fazer?",
 <p>Entre os passos, rode <code>git diff</code> para revisar, faça o commit e use <code>/context</code> para ver o tamanho da conversa. Se errou o caminho, <b>Esc duas vezes</b> volta a um ponto anterior. Ao mudar de assunto, use <code>/clear</code>: o <code>PLAN.md</code> e o CLAUDE.md mantêm o contexto essencial.</p>
 <div class="tip">Checklist: API com testes passando ✓ · interface funcional ✓ · um commit por etapa ✓</div>`,
 q:{q:"Por que dividir a construção em prompts pequenos?",o:["Fica mais fácil revisar, testar e desfazer cada parte","O Claude só aceita 4 prompts","Para gastar mais","Porque é proibido pedir tudo junto"],a:0,e:"Passos pequenos dão resultados verificáveis e erros baratos de corrigir."}},
-{m:"Projeto",t:"Etapa 4: skill e hook",b:`<p>Automatize o que você repete. Primeiro uma <b>skill</b> para criar novas funcionalidades no padrão do projeto, em <code>.claude/skills/nova-feature/SKILL.md</code>:</p>
+{m:"Projeto",t:"TaskFlow · Etapa 4: skill e hook",b:`<p>Automatize o que você repete. Primeiro uma <b>skill</b> para criar novas funcionalidades no padrão do projeto, em <code>.claude/skills/nova-feature/SKILL.md</code>:</p>
 <pre><code>---
 name: nova-feature
 description: Cria uma funcionalidade nova no TaskFlow seguindo o padrão do projeto
@@ -241,7 +241,7 @@ description: Cria uma funcionalidade nova no TaskFlow seguindo o padrão do proj
 }</code></pre>
 <p>Teste: <code>/nova-feature adicionar prioridade (baixa, média, alta) às tarefas</code>. Se algo não disparar, use <code>/hooks</code> para conferir a configuração.</p>`,
 q:{q:"Qual a diferença entre a skill e o hook neste projeto?",o:["Nenhuma","A skill ensina um fluxo sob demanda; o hook executa uma ação sempre, automaticamente","O hook é só para MCP","A skill roda sem permissão"],a:1,e:"Skill é conhecimento acionado quando necessário. Hook é automação garantida em eventos."}},
-{m:"Projeto",t:"Etapa 5: revisor e entrega",b:`<p>Crie um <b>subagent</b> revisor em <code>.claude/agents/revisor.md</code>:</p>
+{m:"Projeto",t:"TaskFlow · Etapa 5: revisor e entrega",b:`<p>Crie um <b>subagent</b> revisor em <code>.claude/agents/revisor.md</code>:</p>
 <pre><code>---
 name: revisor
 description: Revisa mudanças recentes procurando bugs, falta de testes e riscos de segurança
@@ -330,7 +330,310 @@ q:{q:"Por que a atualização semanal deve passar por revisão humana?",o:["Porq
 <tr><td><code>@arquivo</code></td><td>Menciona um arquivo ou pasta no prompt</td></tr></table></div>`,
 q:{q:"Qual comando mostra o que está ocupando a janela de contexto?",o:["/init","/context","/hooks","/agents"],a:1,e:"O /context detalha o uso da janela, o que ajuda a decidir entre /clear e /compact."}},
 {m:"Novidades",t:"Novidades da semana",b:newsHtml(),
-q:{q:"Qual a melhor fonte para confirmar uma mudança no Claude Code?",o:["Um comentário em rede social","O changelog oficial e a documentação","Um tutorial antigo","Um palpite"],a:1,e:"O changelog e a documentação oficiais são a referência. Resumos de terceiros ajudam, mas podem errar."}}
+q:{q:"Qual a melhor fonte para confirmar uma mudança no Claude Code?",o:["Um comentário em rede social","O changelog oficial e a documentação","Um tutorial antigo","Um palpite"],a:1,e:"O changelog e a documentação oficiais são a referência. Resumos de terceiros ajudam, mas podem errar."}},
+{m:"Intermediário",t:"Hierarquia de configurações",b:`<p>O Claude Code lê configurações em camadas. Conhecer a ordem evita surpresas do tipo “por que essa regra não vale?”.</p>
+<div class="tb"><table><tr><th>Camada</th><th>Arquivo</th><th>Uso</th></tr>
+<tr><td>Usuário</td><td><code>~/.claude/settings.json</code></td><td>Suas preferências em todos os projetos</td></tr>
+<tr><td>Projeto</td><td><code>.claude/settings.json</code></td><td>Compartilhado com o time via Git</td></tr>
+<tr><td>Local</td><td><code>.claude/settings.local.json</code></td><td>Só seu, neste projeto (fora do Git)</td></tr>
+<tr><td>Gerenciada</td><td>definida pela organização</td><td>Regras que ninguém sobrescreve</td></tr></table></div>
+<p>Em geral, a configuração mais específica prevalece sobre a mais geral, e a gerenciada vence todas. O mesmo vale para o CLAUDE.md: há um pessoal em <code>~/.claude/CLAUDE.md</code>, um do projeto e outros em subpastas, carregados quando o Claude trabalha ali.</p>
+<p><b>Mão na massa:</b> coloque suas preferências pessoais no CLAUDE.md de usuário e as regras do time no do projeto. Depois rode <code>/permissions</code> e veja de onde vem cada regra.</p>
+<div class="tip">Confirme a ordem exata de precedência na documentação de settings, pois ela evolui entre versões.</div>`,
+q:{q:"Onde ficam as configurações que são só suas, em um projeto compartilhado?",o:[".claude/settings.json",".claude/settings.local.json","CLAUDE.md do projeto","Nenhum lugar"],a:1,e:"O settings.local.json não vai para o Git, então serve para ajustes pessoais."}},
+{m:"Intermediário",t:"Gestão de contexto a fundo",b:`<p>A janela de contexto é o recurso mais valioso: tudo que o Claude lê, escreve e executa ocupa espaço. Quanto mais cheia, mais caro e menos preciso ele fica.</p>
+<ul><li><code>/context</code>: mostra o que ocupa a janela (CLAUDE.md, MCP, histórico)</li><li><code>/compact</code>: resume a conversa. Dê foco: <code>/compact mantenha as decisões sobre a API</code></li><li><code>/clear</code>: zera tudo ao mudar de assunto</li><li><b>Esc duas vezes</b>: volta a um ponto anterior, útil quando o Claude tomou um caminho errado</li><li><code>claude -c</code> e <code>claude -r</code>: retomam sessões sem refazer o trabalho</li><li><b>Subagents:</b> exploram arquivos em contexto próprio e devolvem só o resumo</li></ul>
+<p><b>Mão na massa:</b> em um projeto, rode <code>/context</code>, anote o consumo, desative um MCP que não usa e compare.</p>
+<div class="tip">Regra de ouro: um assunto por conversa. Gravou uma decisão importante? Registre no CLAUDE.md ou em um PLAN.md, e use /clear sem medo.</div>`,
+q:{q:"O que fazer antes de compactar uma conversa longa?",o:["Nada","Indicar no /compact o que deve ser preservado","Reinstalar","Apagar o CLAUDE.md"],a:1,e:"Instruir o /compact sobre o foco evita perder as decisões que importam."}},
+{m:"Intermediário",t:"Modelos e esforço",b:`<p>Use <code>/model</code> para trocar de modelo e ajustar o <b>esforço</b>, isto é, o quanto o Claude raciocina antes de agir. Mais esforço melhora tarefas difíceis, mas consome mais limite e tempo.</p>
+<div class="tb"><table><tr><th>Situação</th><th>Escolha</th></tr>
+<tr><td>Tarefas simples e rápidas (renomear, formatar, perguntas)</td><td>Haiku</td></tr>
+<tr><td>Trabalho diário de código</td><td>Sonnet</td></tr>
+<tr><td>Depuração difícil, arquitetura, refatorações grandes</td><td>Opus</td></tr>
+<tr><td>Problemas mais complexos que o Opus não resolve</td><td>Modelos da linha Mythos/Fable, quando disponíveis</td></tr></table></div>
+<p>Uma boa estratégia: planeje com um modelo mais forte e execute com um mais barato. Palavras-chave como “ultrathink” aumentam o raciocínio em um pedido específico.</p>
+<div class="tip">Os modelos e o acesso a cada um mudam com frequência. Veja o que está disponível no seu plano em <code>/model</code> e na aula de novidades.</div>`,
+q:{q:"Qual a melhor estratégia para equilibrar qualidade e custo?",o:["Sempre o modelo mais forte","Modelo e esforço proporcionais à dificuldade da tarefa","Sempre o mais barato","Nunca trocar"],a:1,e:"Tarefas simples não precisam do máximo de raciocínio. Reserve-o para o que é difícil."}},
+{m:"Intermediário",t:"Git e GitHub no dia a dia",b:`<p>O Git é sua rede de segurança ao trabalhar com um agente. Hábitos que funcionam:</p>
+<ul><li>Uma <b>branch por tarefa</b> e commits pequenos</li><li>Peça ao Claude: <i>“faça commit com mensagem no padrão convencional”</i></li><li>Com o GitHub CLI instalado: <i>“abra um PR com resumo das mudanças”</i> (usa <code>gh pr create</code>)</li><li>Revise sempre o <code>git diff</code> antes de commitar</li></ul>
+<pre><code>git switch -c feat/prioridade   # nova branch
+git restore .                   # descarta mudanças não commitadas
+git revert HEAD                 # desfaz o último commit, com histórico
+git worktree add ../app-b -b feat/b   # cópia paralela</code></pre>
+<p><b>Cuidado:</b> <code>git reset --hard</code> apaga trabalho sem volta. Deixe <code>git push</code> em <b>ask</b> nas permissões, para sempre confirmar o que sobe.</p>
+<div class="tip"><b>Mão na massa:</b> crie uma branch, peça uma pequena mudança, revise o diff, faça o commit e abra um PR de teste.</div>`,
+q:{q:"Como descartar mudanças não commitadas sem apagar o histórico?",o:["git restore .","Apagar a pasta","git push --force","Reiniciar o PC"],a:0,e:"O git restore volta os arquivos ao último commit. Commits pequenos tornam isso seguro."}},
+{m:"Intermediário",t:"Claude Code no VS Code, JetBrains e Desktop",b:`<p>A configuração (CLAUDE.md, skills, hooks, MCP) é a mesma em qualquer superfície. O que muda é a experiência:</p>
+<ul><li><b>Terminal:</b> o mais completo e o melhor para ver o que o agente faz passo a passo</li><li><b>VS Code e forks (como o Cursor):</b> extensão com diffs visuais e menção ao arquivo e à seleção atual do editor</li><li><b>JetBrains:</b> plugin que integra o terminal do Claude Code à IDE</li><li><b>App Desktop:</b> sessões paralelas e visualização de planos, boa para quem prefere interface gráfica</li></ul>
+<p>Você pode alternar entre elas: sessões salvas podem ser retomadas com <code>claude -r</code>.</p>
+<p><b>Mão na massa:</b> abra o mesmo projeto no terminal e no VS Code e compare como cada um mostra as edições.</p>
+<div class="tip">Os recursos de cada integração variam por versão. Veja a documentação da IDE que você usa.</div>`,
+q:{q:"O que é igual em todas as formas de usar o Claude Code?",o:["Nada","A configuração: CLAUDE.md, skills, hooks e MCP","A aparência","O preço"],a:1,e:"Os arquivos de configuração do projeto valem em qualquer interface."}},
+{m:"Projetos",t:"CLI · Preparação",b:`<p><b>Projeto 2: notas-cli.</b> Uma ferramenta de linha de comando em Node e TypeScript para gerenciar notas (<code>notas add</code>, <code>list</code>, <code>done</code>, <code>remove</code>), com testes e pronta para publicar. Você vai praticar <b>especificação, TDD e empacotamento</b> com o Claude Code.</p>
+<pre><code>mkdir notas-cli &amp;&amp; cd notas-cli
+git init
+npm init -y
+npm i -D typescript vitest tsx @types/node
+npx tsc --init
+git add -A &amp;&amp; git commit -m "chore: setup"
+claude</code></pre>
+<p>Roteiro: <b>1)</b> contexto e regras, <b>2)</b> especificação e plano, <b>3)</b> desenvolvimento com testes, <b>4)</b> skill e hook, <b>5)</b> build e publicação.</p>
+<div class="tip">Diferente do TaskFlow, aqui você escreve a especificação antes do código. Quanto mais claro o contrato, melhor o resultado.</div>`,
+q:{q:"O que este projeto treina que o TaskFlow treinou menos?",o:["Interface visual","Especificação, TDD e empacotamento","Banco de dados","Deploy web"],a:1,e:"O foco aqui é definir o contrato antes, guiar por testes e entregar um pacote."}},
+{m:"Projetos",t:"CLI · Etapa 1: contexto e regras",b:`<p>Rode <code>/init</code> e ajuste o CLAUDE.md para o projeto:</p>
+<pre><code># notas-cli
+CLI em Node + TypeScript (ESM). Testes com Vitest.
+## Comandos
+- Testes: npx vitest run
+- Tipos: npx tsc --noEmit
+- Executar: npx tsx src/index.ts
+## Regras
+- Nunca escrever fora do arquivo de dados indicado por NOTAS_FILE
+- Toda função pública tem teste
+- Mensagens de erro claras, com código de saída diferente de 0</code></pre>
+<p>Permissões em <code>.claude/settings.json</code>: libere <code>Bash(npx vitest:*)</code> e <code>Bash(npx tsc:*)</code> em allow e bloqueie <code>Read(./.env*)</code> em deny. Confira com <code>/permissions</code> e commite.</p>
+<div class="tip"><b>Checklist:</b> CLAUDE.md com comandos e regras ✓ · permissões configuradas ✓ · commit feito ✓</div>`,
+q:{q:"Por que a regra sobre NOTAS_FILE importa?",o:["Para o Claude não tocar em arquivos fora do escopo e os testes não mexerem em dados reais","Para deixar o app mais lento","É exigência do npm","Não importa"],a:0,e:"Limitar onde o programa escreve protege dados reais e torna os testes seguros."}},
+{m:"Projetos",t:"CLI · Etapa 2: especificação e plano",b:`<p>Entre em Plan Mode (<b>Shift+Tab</b>) e peça a especificação antes de qualquer código:</p>
+<pre><code>Quero uma CLI chamada notas. Escreva um SPEC.md com:
+- comandos: add, list, done, remove (argumentos e exemplos de uso)
+- formato dos dados em JSON (id, texto, feito, criadoEm)
+- onde os dados ficam (NOTAS_FILE, com padrão em ~/.notas.json)
+- casos de erro e códigos de saída
+Depois proponha um plano em etapas pequenas. Liste dúvidas antes.</code></pre>
+<p>Revise o SPEC.md linha a linha, responda às dúvidas e só então aprove. Com a especificação escrita, você pode usar <code>/clear</code> e continuar sem perder o contrato.</p>
+<div class="tip">A especificação vira a memória de longo prazo do projeto. Ela vale mais que o histórico da conversa.</div>`,
+q:{q:"Por que salvar a especificação em SPEC.md?",o:["Para enfeitar o repositório","Para limpar o contexto sem perder o contrato do projeto","Porque o Claude exige","Para gastar mais"],a:1,e:"Um arquivo versionado sobrevive ao /clear e serve de referência para todas as etapas."}},
+{m:"Projetos",t:"CLI · Etapa 3: desenvolvimento com testes",b:`<p>Aqui você pratica <b>TDD</b>: testes primeiro, código depois. Um comando por vez:</p>
+<pre><code>Siga o @SPEC.md. Comece pelo comando add:
+1. Escreva os testes (Vitest) e rode para ver falhar
+2. Implemente até passar
+3. Rode npx tsc --noEmit e corrija os tipos
+Não toque nos outros comandos ainda.</code></pre>
+<p>Repita para <code>list</code>, <code>done</code> e <code>remove</code>, commitando a cada comando. Nos testes, use um arquivo temporário em <code>NOTAS_FILE</code> para não tocar em dados reais. Ao final, peça testes de erro: id inexistente, arquivo corrompido e argumento faltando.</p>
+<div class="tip">Testes escritos antes dão ao Claude um critério objetivo de sucesso: ele itera sozinho até tudo ficar verde.</div>`,
+q:{q:"Qual a vantagem de escrever os testes antes?",o:["Nenhuma","O Claude passa a ter um critério objetivo para saber quando terminou","Dispensa revisão","Deixa o código mais curto"],a:1,e:"Um teste falhando é uma meta clara e verificável para o agente."}},
+{m:"Projetos",t:"CLI · Etapa 4: skill e hook",b:`<p>Crie uma skill para adicionar novos comandos sempre no mesmo padrão, em <code>.claude/skills/novo-comando/SKILL.md</code>:</p>
+<pre><code>---
+name: novo-comando
+description: Adiciona um comando novo à CLI notas seguindo o SPEC.md
+---
+1. Atualize o SPEC.md com o comando
+2. Escreva os testes primeiro
+3. Implemente em src/commands/
+4. Rode vitest e tsc até passar</code></pre>
+<p>E um hook que valida os tipos a cada edição, em <code>.claude/settings.json</code>:</p>
+<pre><code>"hooks": {
+  "PostToolUse": [{
+    "matcher": "Edit|Write",
+    "hooks": [{ "type": "command", "command": "npx tsc --noEmit" }]
+  }]
+}</code></pre>
+<p>Teste com <code>/novo-comando edit</code> (editar o texto de uma nota). Se o hook for lento, troque por um que só rode no evento <code>Stop</code>.</p>`,
+q:{q:"Por que usar um hook de tipos em vez de lembrar no CLAUDE.md?",o:["O hook roda sempre, sem depender de o modelo lembrar","O CLAUDE.md não aceita regras","Hooks são mais bonitos","Para evitar testes"],a:0,e:"Hooks são determinísticos: a verificação acontece em toda edição."}},
+{m:"Projetos",t:"CLI · Etapa 5: build e publicação",b:`<p>Hora de empacotar. Peça ao Claude:</p>
+<pre><code>Prepare o notas-cli para publicação:
+- script de build com tsc para a pasta dist
+- campo bin no package.json apontando para dist/index.js (com shebang)
+- README com instalação e exemplos de uso
+- .npmignore para não publicar testes
+Rode o build e teste o bin localmente.</code></pre>
+<pre><code>npm run build
+npm link                 # instala o comando localmente
+notas add "testar publicação"
+npm pack --dry-run       # mostra o que seria publicado</code></pre>
+<p>Revise com um subagent: <i>“use o subagent revisor no código e no package.json”</i>. Gere o changelog com <code>git log | claude -p "resuma em formato CHANGELOG"</code>.</p>
+<div class="tip">Publicar no npm (<code>npm publish</code>) é irreversível para aquela versão e exige conta com 2FA. Faça o dry-run primeiro e, se for só treino, não publique.<br><br><b>Projeto concluído</b> se tem: SPEC.md, testes passando, skill, hook, bin funcionando e README.</div>`,
+q:{q:"Qual comando mostra o que seria publicado, sem publicar de verdade?",o:["npm publish","npm pack --dry-run","npm link","npm run dev"],a:1,e:"O dry-run lista os arquivos do pacote sem enviar nada ao registro."}},
+{m:"Projetos",t:"Bot PR · Preparação",b:`<p><b>Projeto 3: bot revisor de PRs.</b> Você vai montar um pipeline em que o Claude revisa cada pull request automaticamente, do modo headless local até o GitHub Actions.</p>
+<ul><li>Crie um repositório de teste (pode ser o TaskFlow ou o notas-cli)</li><li>Tenha o GitHub CLI: <code>gh auth login</code></li><li>Tenha uma chave de API da Anthropic para a etapa do Actions</li></ul>
+<pre><code>git switch -c feat/teste-bot
+claude</code></pre>
+<p>Roteiro: <b>1)</b> critérios de revisão, <b>2)</b> saída estruturada, <b>3)</b> workflow, <b>4)</b> segurança e limites, <b>5)</b> testes e ajustes.</p>
+<div class="tip">Use um repositório de treino. Um bot que comenta em PRs de verdade deve entrar só depois de testado.</div>`,
+q:{q:"Onde o bot deve ser testado primeiro?",o:["Direto no repositório da empresa","Em um repositório de treino","Em produção","Em lugar nenhum"],a:1,e:"Testar em ambiente seguro evita comentários errados em PRs reais."}},
+{m:"Projetos",t:"Bot PR · Etapa 1: critérios de revisão",b:`<p>Defina o que “uma boa revisão” significa. Crie <code>REVIEW.md</code> na raiz:</p>
+<pre><code># Critérios de revisão
+- Bugs e erros de lógica
+- Falta de testes para código novo
+- Riscos de segurança (segredos, entrada sem validação)
+- Ignore estilo: o lint já cobre
+Classifique cada ponto como baixa, media ou alta.</code></pre>
+<p>Teste localmente, sem GitHub:</p>
+<pre><code>git diff main...HEAD | claude -p "Revise este diff seguindo o REVIEW.md"</code></pre>
+<p>Ajuste o REVIEW.md até as respostas ficarem objetivas e úteis.</p>`,
+q:{q:"Por que listar o que ignorar no REVIEW.md?",o:["Para a revisão focar no que importa e não repetir o lint","Para encurtar o arquivo","Não serve para nada","Para gastar mais"],a:0,e:"Critérios claros evitam comentários ruído e economizam limite."}},
+{m:"Projetos",t:"Bot PR · Etapa 2: saída estruturada",b:`<p>Para o pipeline reagir ao resultado, a saída precisa ser legível por máquina. Peça JSON:</p>
+<pre><code>git diff main...HEAD | claude -p "Revise seguindo o REVIEW.md. Responda
+apenas JSON: [{\"arquivo\":\"\",\"linha\":0,\"severidade\":\"baixa|media|alta\",\"problema\":\"\"}]" \
+  --output-format json &gt; review.json</code></pre>
+<p>Com <code>--output-format json</code>, a resposta vem dentro de um objeto com metadados. Use o <code>jq</code> para extrair e falhar o job se houver problema grave:</p>
+<pre><code>jq -e '[.[] | select(.severidade=="alta")] | length == 0' findings.json</code></pre>
+<div class="tip">Modelos podem errar o formato. Valide o JSON antes de confiar nele e trate o caso de falha.</div>`,
+q:{q:"Por que pedir a saída em JSON?",o:["Fica mais bonito","Scripts e CI conseguem ler e decidir com base nela","Gasta menos","É obrigatório"],a:1,e:"Formato estruturado permite automação, como falhar o job em achados graves."}},
+{m:"Projetos",t:"Bot PR · Etapa 3: workflow no GitHub",b:`<p>Crie <code>.github/workflows/claude-review.yml</code>:</p>
+<pre><code>name: Claude Review
+on:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: \${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: "Revise este PR seguindo o REVIEW.md"</code></pre>
+<p>Adicione a chave em <b>Settings → Secrets and variables → Actions</b>. Abra um PR de teste e acompanhe na aba <b>Actions</b>.</p>
+<div class="tip">Confira o README da action: nomes de parâmetros mudam entre versões.</div>`,
+q:{q:"Onde fica a chave de API do workflow?",o:["No YAML","Em Secrets do repositório","No REVIEW.md","No PR"],a:1,e:"Secrets são criptografados e não aparecem no código."}},
+{m:"Projetos",t:"Bot PR · Etapa 4: segurança e limites",b:`<p>Um bot em CI roda sem ninguém olhando. Coloque limites:</p>
+<ul><li><b>Ferramentas mínimas:</b> libere só leitura (<code>--allowedTools "Read" "Grep" "Glob"</code>)</li><li><b>Limite de passos:</b> <code>--max-turns 5</code> evita loops caros</li><li><b>Permissões do job:</b> só o necessário (<code>pull-requests: write</code>)</li><li><b>PRs de forks:</b> não recebem secrets por padrão. Não contorne isso sem entender o risco</li><li><b>Prompt injection:</b> o código do PR é entrada não confiável e pode conter instruções maliciosas</li></ul>
+<p>Na action, esses flags vão no parâmetro <code>claude_args</code>. Confirme o formato no README.</p>
+<div class="tip">Regra: um agente automatizado deve ter o menor acesso possível, porque ninguém aprova cada ação dele.</div>`,
+q:{q:"Qual a melhor defesa contra código malicioso em um PR?",o:["Confiar no PR","Dar ao bot só ferramentas de leitura e permissões mínimas","Desligar o CI","Usar secrets no log"],a:1,e:"Com acesso mínimo, uma instrução maliciosa não consegue causar estrago."}},
+{m:"Projetos",t:"Bot PR · Etapa 5: testar e iterar",b:`<p>Valide o bot de verdade:</p>
+<ol><li>Abra um PR com um bug proposital (divisão por zero, por exemplo)</li><li>Abra outro sem testes para código novo</li><li>Veja se o bot apontou os dois com severidade correta</li><li>Ajuste o REVIEW.md e repita</li></ol>
+<p>Acompanhe o custo de cada execução na aba Actions e no console da Anthropic. Se o bot for verboso demais, ajuste o REVIEW.md. Documente no README como usar o bot e como desativá-lo.</p>
+<div class="tip"><b>Projeto concluído</b> se tem: REVIEW.md, saída JSON, workflow funcionando, limites configurados e testes com PRs reais de treino.</div>`,
+q:{q:"Como saber se o bot está bom?",o:["Por intuição","Testando com PRs que têm bugs conhecidos e ajustando o prompt","Nunca testando","Contando linhas"],a:1,e:"Casos conhecidos dão uma medida objetiva da qualidade das revisões."}},
+{m:"Projetos",t:"Plugin · Preparação",b:`<p><b>Projeto 4: seu plugin.</b> Um plugin empacota skills, subagents, hooks e servidores MCP em uma unidade instalável e compartilhável. Você vai criar o <b>time-toolkit</b>.</p>
+<pre><code>time-toolkit/
+├── .claude-plugin/plugin.json
+├── skills/revisar/SKILL.md
+├── agents/revisor.md
+├── hooks/hooks.json
+└── .mcp.json</code></pre>
+<pre><code>mkdir -p time-toolkit/.claude-plugin
+cd time-toolkit &amp;&amp; git init &amp;&amp; claude</code></pre>
+<p>Roteiro: <b>1)</b> manifesto, <b>2)</b> skill e subagent, <b>3)</b> hook e MCP, <b>4)</b> teste local, <b>5)</b> marketplace.</p>
+<div class="tip">A estrutura de plugins evolui. Consulte a documentação oficial de plugins ao longo do projeto.</div>`,
+q:{q:"O que um plugin faz?",o:["Só troca o tema","Empacota skills, agents, hooks e MCP para instalar e compartilhar","Substitui o Git","Apaga o CLAUDE.md"],a:1,e:"Plugins agrupam extensões em um pacote distribuível."}},
+{m:"Projetos",t:"Plugin · Etapa 1: manifesto",b:`<p>O manifesto fica em <code>.claude-plugin/plugin.json</code>:</p>
+<pre><code>{
+  "name": "time-toolkit",
+  "description": "Ferramentas de revisão e qualidade do time",
+  "version": "1.0.0"
+}</code></pre>
+<p>O <code>name</code> vira o prefixo das skills (<code>/time-toolkit:revisar</code>), evitando conflito com as suas. Use versionamento semântico: mude a versão a cada release para os usuários receberem atualizações. Peça ao Claude: <i>“crie o plugin.json e um README com o propósito do plugin”</i>.</p>`,
+q:{q:"Para que serve o name do plugin?",o:["Decoração","Identifica o plugin e prefixa suas skills","Troca o modelo","Define o preço"],a:1,e:"O nome identifica o plugin e evita conflitos de nomes de skills."}},
+{m:"Projetos",t:"Plugin · Etapa 2: skill e subagent",b:`<p>Skills e agents ficam em pastas na raiz do plugin, no mesmo formato que você já usa nos projetos:</p>
+<pre><code>skills/revisar/SKILL.md
+---
+name: revisar
+description: Revisa as mudanças atuais seguindo o checklist do time
+---
+1. Rode git diff
+2. Verifique testes, tipos e segurança
+3. Liste problemas por gravidade
+
+agents/revisor.md
+---
+name: revisor
+description: Revisor de código somente leitura
+tools: Read, Grep, Glob
+---
+Revise com rigor e não edite nada.</code></pre>
+<p>Reaproveite o que você criou no TaskFlow e no notas-cli. Plugin bom nasce de coisas que você já repete.</p>`,
+q:{q:"De onde virão as melhores skills do plugin?",o:["De coisas aleatórias","De fluxos que você já repete nos seus projetos","Da internet sem revisão","De nenhum lugar"],a:1,e:"Automatizar o que você já repete garante utilidade real."}},
+{m:"Projetos",t:"Plugin · Etapa 3: hook e MCP",b:`<p>O hook fica em <code>hooks/hooks.json</code> e o MCP em <code>.mcp.json</code>, ambos na raiz do plugin:</p>
+<pre><code>// hooks/hooks.json
+{ "hooks": { "PostToolUse": [{
+  "matcher": "Edit|Write",
+  "hooks": [{ "type": "command", "command": "npm run lint --silent" }]
+}] } }
+
+// .mcp.json
+{ "mcpServers": { "playwright": {
+  "command": "npx", "args": ["@playwright/mcp@latest"] } } }</code></pre>
+<div class="tip">Quem instalar o plugin receberá esse hook e esse MCP. Inclua só o que for realmente seguro e útil para todos.</div>`,
+q:{q:"Por que cuidado ao incluir hooks e MCP em um plugin?",o:["Quem instala passa a executar o que você incluiu","Eles não funcionam","São pagos","Não há motivo"],a:0,e:"Plugins executam comandos na máquina de quem instala, então confiança e revisão importam."}},
+{m:"Projetos",t:"Plugin · Etapa 4: teste local",b:`<p>Teste sem instalar, apontando para a pasta:</p>
+<pre><code>claude --plugin-dir ./time-toolkit</code></pre>
+<p>Dentro da sessão, confira:</p>
+<ul><li><code>/plugin</code>: vê o plugin carregado</li><li><code>/time-toolkit:revisar</code>: a skill responde</li><li><code>/agents</code>: o revisor aparece</li><li><code>/hooks</code> e <code>/mcp</code>: hook e servidor listados</li></ul>
+<p>Corrija o que falhar, reinicie a sessão e repita. Use <code>claude --safe-mode</code> para comparar com uma sessão sem extensões.</p>`,
+q:{q:"Como testar o plugin sem instalá-lo?",o:["claude --plugin-dir ./pasta","Publicando no npm","Reinstalando o Claude","Não dá"],a:0,e:"A flag --plugin-dir carrega o plugin direto da pasta durante o desenvolvimento."}},
+{m:"Projetos",t:"Plugin · Etapa 5: marketplace e distribuição",b:`<p>Um <b>marketplace</b> é um catálogo de plugins, normalmente um repositório Git com <code>.claude-plugin/marketplace.json</code> listando os plugins disponíveis. Publique seu repositório no GitHub e instale por ele:</p>
+<pre><code>/plugin marketplace add SEU-USUARIO/time-marketplace
+/plugin install time-toolkit@time-marketplace</code></pre>
+<p>Para lançar uma versão nova, altere o <code>version</code> do plugin, faça o commit e crie uma tag. Escreva um CHANGELOG e um README com instalação e exemplos.</p>
+<div class="tip">Os comandos de marketplace podem mudar. Confirme na documentação de plugins.<br><br><b>Projeto concluído</b> se tem: manifesto, skill, agent, hook, MCP, teste local e instalação via marketplace.</div>`,
+q:{q:"O que é um marketplace de plugins?",o:["Uma loja de roupas","Um catálogo de plugins instaláveis, geralmente um repositório Git","Um tipo de hook","Um modelo"],a:1,e:"O marketplace lista plugins e permite que outras pessoas os instalem com poucos comandos."}},
+{m:"Avançado",t:"Agent teams e worktrees",b:`<p>Para trabalho realmente paralelo, dê a cada agente o seu próprio espaço. Os <b>git worktrees</b> criam cópias do código em pastas separadas, cada uma em uma branch, sem conflito de arquivos:</p>
+<pre><code>git worktree add ../app-pagamento -b feat/pagamento
+git worktree add ../app-busca -b feat/busca
+git worktree list
+# em cada pasta, uma sessão: cd ../app-busca &amp;&amp; claude
+git worktree remove ../app-busca   # ao terminar</code></pre>
+<p>Os <b>agent teams</b> vão além: várias sessões coordenadas, com tarefas compartilhadas. O recurso é recente e pode exigir ativação, então confira a documentação.</p>
+<p><b>Quando paralelizar:</b> tarefas independentes, que não mexem nos mesmos arquivos. Se uma depende da outra, faça em sequência.</p>
+<div class="tip"><b>Mão na massa:</b> crie dois worktrees e peça uma funcionalidade diferente em cada. Depois faça o merge e resolva eventuais conflitos.</div>`,
+q:{q:"Quando faz sentido rodar agentes em paralelo?",o:["Quando as tarefas são independentes e não editam os mesmos arquivos","Sempre","Nunca","Só com o mesmo arquivo"],a:0,e:"Tarefas independentes em worktrees separados evitam conflitos e ganham tempo."}},
+{m:"Avançado",t:"Hooks avançados: bloqueios e validações",b:`<p>Um hook <code>PreToolUse</code> roda <b>antes</b> da ferramenta e pode impedi-la. O hook recebe os dados da chamada em JSON pela entrada padrão, e sair com <b>código 2</b> bloqueia a ação e devolve a mensagem de erro ao Claude:</p>
+<pre><code>#!/bin/bash
+# .claude/hooks/bloquear.sh
+cmd=$(jq -r '.tool_input.command // empty')
+if echo "$cmd" | grep -qE 'rm -rf|push --force'; then
+  echo "Bloqueado pela política do projeto" &gt;&amp;2
+  exit 2
+fi</code></pre>
+<pre><code>"hooks": { "PreToolUse": [{
+  "matcher": "Bash",
+  "hooks": [{ "type": "command", "command": ".claude/hooks/bloquear.sh" }]
+}] }</code></pre>
+<p>Lembre de dar permissão de execução (<code>chmod +x</code>). Além de comandos de shell, hooks podem usar outros tipos, como requisições HTTP e prompts. Veja os tipos disponíveis na sua versão.</p>
+<div class="tip">Use hooks de bloqueio para o que nunca deve acontecer (produção, push forçado, arquivos protegidos). Eles são mais confiáveis que uma instrução no CLAUDE.md.</div>`,
+q:{q:"Qual código de saída de um hook PreToolUse bloqueia a ação?",o:["0","1","2","255"],a:2,e:"O código 2 bloqueia a chamada e envia a mensagem de erro ao Claude."}},
+{m:"Avançado",t:"Criando seu próprio servidor MCP",b:`<p>Quando não existe um MCP para o seu sistema, você cria o seu. Com o SDK oficial em Python, uma ferramenta é só uma função:</p>
+<pre><code>from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("notas")
+
+@mcp.tool()
+def contar_palavras(texto: str) -&gt; int:
+    """Conta as palavras de um texto"""
+    return len(texto.split())
+
+if __name__ == "__main__":
+    mcp.run()</code></pre>
+<pre><code>pip install mcp
+claude mcp add notas -- python server.py</code></pre>
+<p>Há também SDK em TypeScript. Um servidor pode expor <b>ferramentas</b> (ações), <b>recursos</b> (dados) e <b>prompts</b>. A descrição e os tipos de cada ferramenta são o que o Claude lê para decidir quando usá-la, então escreva-os com cuidado.</p>
+<div class="tip"><b>Segurança:</b> valide toda entrada, não exponha segredos e dê só as capacidades necessárias. Comece com ferramentas de leitura.</div>`,
+q:{q:"O que o Claude usa para decidir quando chamar uma ferramenta MCP?",o:["O nome do arquivo","A descrição e os parâmetros declarados da ferramenta","Sorte","A cor do terminal"],a:1,e:"Boas descrições e tipos claros fazem o Claude escolher e usar a ferramenta certa."}},
+{m:"Avançado",t:"Plugins e marketplaces",b:`<p>Plugins transformam o que você configurou em um pacote que outras pessoas instalam com um comando. Um plugin pode conter:</p>
+<ul><li><b>Skills</b> e comandos</li><li><b>Subagents</b></li><li><b>Hooks</b></li><li><b>Servidores MCP</b></li></ul>
+<p>Cada plugin tem um manifesto (<code>.claude-plugin/plugin.json</code>) e é distribuído por <b>marketplaces</b>, catálogos que podem ser públicos ou internos da empresa. Ferramentas: <code>/plugin</code> para gerenciar e <code>claude --plugin-dir</code> para testar localmente.</p>
+<p><b>Quando criar um plugin:</b> quando o mesmo conjunto de skills e hooks é usado por mais de uma pessoa ou projeto. Para uso só seu, os arquivos em <code>.claude/</code> bastam.</p>
+<div class="tip">Instale plugins só de fontes confiáveis: eles podem executar comandos e conectar serviços. No módulo Projetos, o Projeto 4 constrói um do zero.</div>`,
+q:{q:"Quando vale criar um plugin?",o:["Quando o mesmo conjunto de extensões é reutilizado por várias pessoas ou projetos","Sempre","Nunca","Só para trocar cores"],a:0,e:"Plugin é para distribuir e padronizar. Uso individual não precisa dele."}},
+{m:"Avançado",t:"Agent SDK: construindo seus agentes",b:`<p>O <b>Agent SDK</b> dá acesso, em código, ao mesmo motor do Claude Code (ferramentas, permissões, contexto). Existe para TypeScript e para Python. Um exemplo em TypeScript:</p>
+<pre><code>import { query } from "@anthropic-ai/claude-agent-sdk";
+
+for await (const msg of query({
+  prompt: "Resuma o README do projeto",
+  options: { allowedTools: ["Read", "Glob"] }
+})) {
+  console.log(msg);
+}</code></pre>
+<p>Use o SDK quando precisar <b>embutir</b> um agente em um produto, rodar tarefas programadas ou controlar cada etapa por código. Para uso interativo ou scripts simples, o modo <code>claude -p</code> já resolve.</p>
+<div class="tip">A API do SDK evolui rápido. Veja a documentação do Agent SDK para os nomes atuais de pacote e opções.</div>`,
+q:{q:"Quando usar o Agent SDK em vez de claude -p?",o:["Para qualquer comando simples","Para embutir agentes em um produto ou controlar o fluxo por código","Nunca","Para instalar o Claude"],a:1,e:"O SDK é para integração profunda. Para scripts simples, o modo -p basta."}},
+{m:"Avançado",t:"Segurança para equipes",b:`<p>Um agente com acesso ao seu código e ao terminal exige disciplina. Camadas de defesa:</p>
+<ul><li><b>Permissões mínimas:</b> deny para segredos, ask para ações de risco (push, deploy)</li><li><b>Escrita contida:</b> a opção <code>permissions.blockWritesOutsideWorkingDirectories</code> impede edições fora das pastas de trabalho</li><li><b>Isolamento:</b> use o sandbox de comandos e containers ou VMs para tarefas automáticas</li><li><b>Configuração gerenciada:</b> a organização define regras que ninguém sobrescreve</li><li><b>Prompt injection:</b> trate arquivos, páginas e retornos de MCP como não confiáveis</li><li><b>Repositórios desconhecidos:</b> abra com <code>claude --safe-mode</code></li><li><b>Extensões:</b> revise plugins, skills e MCPs antes de instalar</li></ul>
+<div class="tip">Modos que pulam todas as permissões só devem ser usados em ambientes descartáveis e isolados, nunca na sua máquina com acesso a segredos.</div>`,
+q:{q:"Como lidar com um repositório que você não conhece?",o:["Abrir com permissões totais","Abrir com --safe-mode e revisar antes de habilitar extensões","Instalar todos os plugins","Ignorar"],a:1,e:"O modo seguro evita executar hooks, skills e MCPs do repositório sem revisão."}},
+{m:"Avançado",t:"Custos e repositórios grandes",b:`<p>Em bases de código grandes, o gargalo é o contexto. Estratégias:</p>
+<ul><li><b>Seja específico:</b> aponte pastas e arquivos com <code>@</code> em vez de “leia tudo”</li><li><b>Subagents para explorar:</b> eles leem muito e devolvem só o resumo</li><li><b>CLAUDE.md por pasta:</b> em monorepos, regras de cada pacote ficam na pasta dele</li><li><b>Oculte o que não interessa:</b> regras deny para pastas como <code>node_modules</code> e artefatos de build</li><li><b>Planeje antes:</b> refazer custa mais que planejar</li><li><b>Monitore:</b> <code>/context</code> e <code>/compact</code> com frequência</li></ul>
+<p>Para custos de equipe, escolha o modelo por tarefa, use headless com limite de passos (<code>--max-turns</code>) e acompanhe o consumo no console da Anthropic.</p>
+<div class="tip"><b>Mão na massa:</b> em um repositório grande, peça uma tarefa vaga e depois a mesma com arquivos indicados. Compare o consumo em /context.</div>`,
+q:{q:"Qual a melhor forma de explorar muitos arquivos sem lotar o contexto?",o:["Pedir para ler tudo","Delegar a exploração a um subagent que devolve só o resumo","Desligar o /context","Reiniciar o PC"],a:1,e:"O subagent explora em contexto isolado e mantém a conversa principal enxuta."}}
 ];
 let cur=0,done=new Set(),ans={};
 try{const s=JSON.parse(localStorage.getItem("cc-curso-v2")||"null");if(s){(s.done||[]).forEach(i=>done.add(i));ans=s.ans||{};cur=Math.min(Math.max(+s.cur||0,0),L.length-1)}else{const o=JSON.parse(localStorage.getItem("cc-curso")||"[]");if(Array.isArray(o))o.forEach(i=>done.add(i))}}catch(e){}
@@ -343,8 +646,15 @@ function render(){const l=L[cur],q=l.q,a=ans[cur];
 let opts=q.o.map((t,k)=>{let c="";if(a!==undefined){if(k===q.a)c="ok";else if(k===a)c="no"}return `<button class="opt ${c}" ${a!==undefined?"disabled":""} onclick="pick(${k})">${t}</button>`}).join("");
 let fb=a===undefined?"":(a===q.a?`<div class="fb" style="color:var(--ok)"><b>Correto!</b> ${q.e}</div>`:`<div class="fb" style="color:var(--er)"><b>Quase.</b> ${q.e} <button class="btn g" onclick="retry()">Tentar de novo</button></div>`);
 let end=done.size===L.length?`<div class="tip"><b>Curso concluído!</b> Você concluiu as ${L.length} aulas.</div>`:"";
-$("main").innerHTML=`<div class="tag">${l.m} · aula ${cur+1} de ${L.length}</div><h2>${l.t}</h2>${l.b}<div class="quiz"><h4>Teste rápido: ${q.q}</h4>${opts}${fb}</div>${end}<div class="nv"><button class="btn g" ${cur===0?"disabled":""} onclick="go(${cur-1})">← Anterior</button><button class="btn" ${cur===L.length-1?"disabled":""} onclick="go(${cur+1})">Próxima →</button></div>`;nav()}
+$("main").innerHTML=`<div class="tag">${mod(cur)} · aula ${ORD.indexOf(cur)+1} de ${L.length} · revisão em 15/11/2026</div><h2>${l.t}</h2>${l.b}<div class="quiz"><h4>Teste rápido: ${q.q}</h4>${opts}${fb}</div>${end}<div class="nv"><button class="btn g" ${ORD.indexOf(cur)===0?"disabled":""} onclick="go(${ORD[ORD.indexOf(cur)-1]})">← Anterior</button><button class="btn" ${ORD.indexOf(cur)===ORD.length-1?"disabled":""} onclick="go(${ORD[ORD.indexOf(cur)+1]})">Próxima →</button></div>`;nav()}
 function retry(){delete ans[cur];save();render()}
+const MODS={"Essencial":[0,1,2,3,4,10],"Intermediário":[22,23,24,5,6,17,7,25,26],"Avançado":[8,45,46,47,48,9,18,49,50,51],"Projetos":[11,12,13,14,15,16,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44],"Extras":[21,19,20]};
+const ORD=Object.values(MODS).flat();
+function mod(i){return Object.keys(MODS).find(k=>MODS[k].includes(i))}
+let Q="";const TXT=L.map(l=>(l.t+" "+l.b.replace(/<[^>]+>/g," ")).toLowerCase());
+function filt(){const q=Q.trim().toLowerCase();document.querySelectorAll("#nav button").forEach(b=>{const i=+b.getAttribute("onclick").match(/\d+/)[0];b.style.display=(!q||TXT[i].includes(q))?"":"none"})}
+function nav(){let h="";for(const k in MODS){const d=MODS[k].filter(i=>done.has(i)).length;h+=`<h3>${k} · ${d}/${MODS[k].length}</h3>`+MODS[k].map(i=>`<button class="${i===cur?"on":""}" onclick="go(${i})"><span>${done.has(i)?"✓":"○"}</span>${L[i].t}</button>`).join("")}$("nav").innerHTML=h;$("pb").style.width=(done.size/L.length*100)+"%";copyBtns();filt()}
+function copyBtns(){document.querySelectorAll("main pre").forEach(p=>{if(p.querySelector(".cp"))return;const b=document.createElement("button");b.className="btn g cp";b.textContent="Copiar";b.style.cssText="float:right;padding:3px 10px;font-size:.75rem;margin:-4px -6px 0 8px";b.onclick=()=>{try{navigator.clipboard.writeText(p.querySelector("code").innerText).then(()=>{b.textContent="Copiado!";setTimeout(()=>b.textContent="Copiar",1500)})}catch(e){}};p.prepend(b)})}
 render();
 </script>
 </body>
